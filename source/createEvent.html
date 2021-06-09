@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create Event</title>
+
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+    <script language="javascript" type="text/javascript" src="js/ABI.js"></script>
+    <script language="javascript" type="text/javascript" src="js/checkTypeOfUser.js"></script>
+    <script language="javascript" type="text/javascript" src="js/inputValidation.js"></script>
+    <script language="javascript" type="text/javascript" src="js/web3Provider.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"
+            integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+
+</head>
+<body>
+
+<div class="container">
+    <div class="header"></div> <!-- HEADER with TOP_MENU//-->
+    <ul>
+        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="displayEvents.html">View Events</a></li>
+        <li><a id = "eventPage" style="visibility: hidden" href="createEvent.html">Create Event</a></li>
+        <li><a id = "manager" style="visibility: hidden" href="managerPage.html">My Events</a></li>
+        <li><a id = "secondMarket"  href="secondMarket.html">2nd Market</a></li>
+        <li><a id = "user"  style="visibility: hidden" href="userPage.html">My Tickets</a></li>
+<!-- document.getElementByID('someID')style.display = 'none';-->
+    </ul>
+    <div class="content">
+        <h1>Create Event</h1>
+        <label for="name" class="col-lg-2 control-label">Title</label>
+        <input id="name" type="text" >
+
+        <label for="name" class="col-lg-2 control-label">Details</label>
+        <input id="details" type="text">
+
+        <label for="name" class="col-lg-2 control-label">Picture link</label>
+        <input id="eventPicture" type="text" >
+
+        <label for="name" class="col-lg-2 control-label">Number of tickets to sale</label>
+        <input id="noTicketsToSale" type="text">
+
+        <label for="name" class="col-lg-2 control-label">Price of ticket</label>
+        <input id="ticketPrice" type="text">
+
+    <p> Allow resale of tickets</p>
+        <select id="allowResale">
+            <option value="true" selected="selected">Yes</option>
+            <option value="false">No</option>
+        </select>
+
+        <button id="createEvent">Create Event</button>
+
+    </div>
+
+    <script>
+        var web3 = setProvider();
+        var Contract = getContract();
+        console.log(Contract);
+
+        accountType(Contract);
+
+        $("#createEvent").click(function () {
+            var url = document.getElementById("eventPicture").value;
+            var price = document.getElementById("ticketPrice").value;
+            var noTickets = document.getElementById("noTicketsToSale").value;
+
+            if(ValidURL(url) && isNumber(price) && isNumber(noTickets)){
+                var e = document.getElementById("allowResale");
+                Contract.createEvent($("#name").val(), $("#details").val(), $("#eventPicture").val(),
+                    $("#noTicketsToSale").val(), $("#ticketPrice").val(), e.options[e.selectedIndex].value);
+            }
+            else alert("Input is not valid!");
+
+        });
+
+    </script>
+    <div class="footer"></div> <!-- footer //-->
+</div>
+</body>
+</html>

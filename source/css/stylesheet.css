@@ -1,0 +1,139 @@
+body {
+/*    background-color:#F0F0F0;*/
+    padding: 2em;
+    font-family: 'Raleway','Source Sans Pro', 'Arial';
+    background-image: url("cool-background.jpg");
+}
+#manager.li{
+    text-align: right
+}
+
+div.container {
+    width: 85%;
+    height:100%;
+    margin: 80px;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 250%;
+}
+label {
+    display:block;
+    margin-bottom:10px;
+}
+input {
+    padding:10px;
+    width: 50%;
+    margin-bottom: 1em;
+}
+button {
+    margin:0 auto;
+    padding: 1em 4em;
+    display:block;
+    text-align: center;
+}
+#createEvent{
+    margin: 2em 0;
+    padding: 1em 4em;
+    display:block;
+}
+
+
+#eventDetails {
+    /*padding:1em;*/
+/*    background-color:#F0F0F0;*/
+    margin: 1em 0;
+}
+#eventDetailsManager {
+    font-size: 10px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+}
+#resaleMarket{
+    font-size: 10px;
+}
+#userTicket{
+    font-size: 10px;
+}
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 15px;
+    text-align: center;
+/*    background-color: #4CAF75;*/
+}
+td {
+    text-align: center;
+
+    width: 10%;
+}
+/*tr:hover {
+    background-color: #ddd;
+}
+tr.even {
+    background: #f2f2f2;
+}
+tr.odd {
+    background: #ddd;
+}*/
+
+#updatePrice {
+    padding:1em;
+    color: black;
+    background-color: #ffc305;
+    margin: 1em 0;
+}
+
+div.footer {padding: 1.5em;
+    color: white;
+    background-color: #333;
+    clear: left;
+    text-align: left;
+}
+div.header{padding: 10em;
+    background-image:url('headerWeb.png');
+    background-repeat: no-repeat;
+    clear: both;
+    text-align: left;}
+
+div.content { margin-left: 1px;
+    width: 97.3%;
+    height: 11s00px;
+    background-color: white;
+    padding: 1em;
+    text-align: left;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+li {
+    float: left;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li a:hover {
+    background-color: #111;
+}
+div.bigBox{
+    height:500px;
+    margin-left: 10px;
+    margin-bottom: 80px;
+    background-color:#F0F0F0;
+/*    border: 1px solid orange;*/
+}
+div.smallBox{
+    margin-left: 430px;
+    line-height: 100%;
+    height:699px;
+    text-align: center;
+}
+

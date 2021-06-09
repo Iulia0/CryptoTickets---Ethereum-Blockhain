@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CryptoTickets</title>
+
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+    <script language="javascript" type="text/javascript" src="js/ABI.js"></script>
+    <script language="javascript" type="text/javascript" src="js/checkTypeOfUser.js"></script>
+    <script language="javascript" type="text/javascript" src="js/web3Provider.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"
+            integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="header"></div> <!-- HEADER with TOP_MENU//-->
+    <ul>
+        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="displayEvents.html">View Events</a></li>
+        <li><a id = "eventPage" style="visibility: hidden" href="createEvent.html">Create Event</a></li>
+        <li><a id = "manager"  style="visibility: hidden" href="managerPage.html">My Events</a></li>
+        <li><a id = "secondMarket"  href="secondMarket.html">2nd Market</a></li>
+        <li><a id = "user"  style="visibility: hidden" href="userPage.html">My Tickets</a></li>
+
+
+    </ul>
+    <div class="content">
+        <form action="userPage.html">
+            <button id="sellTicket">Sell a Ticket</button>
+        </form>
+
+        <h3 id="resaleMarket"></h3>
+    </div>
+    <script>
+        var web3 = setProvider();
+        var Contract = getContract();
+        console.log(Contract);
+
+        accountType(Contract);
+
+        var getUSDETH;
+        Contract.ETHUSDSTRING(function (error, result) {
+            if (!error) {
+                getUSDETH = parseFloat(result);
+                console.log(result);
+            } else
+                console.error(error);
+        });
+
+        Contract.getTicketsArraySize(function (error, arraySize) {
+            console.log(arraySize);
+            if (!error && arraySize.length !== 0) {
+                var main = document.getElementById("resaleMarket");
+                document.getElementById("resaleMarket").innerHTML = "";
+                var tab = main.appendChild(document.createElement("table"));
+                var head = tab.appendChild(document.createElement("thead"));
+                var row = head.appendChild(document.createElement("tr"));
+                h = row.appendChild(document.createElement("th"));
+                h.appendChild(document.createTextNode("Owner"));
+                var h = row.appendChild(document.createElement("th"));
+                h.appendChild(document.createTextNode("Unique Hash"));
+                h = row.appendChild(document.createElement("th"));
+                h.appendChild(document.createTextNode("Price "));
+                h = row.appendChild(document.createElement("th"));
+                h.appendChild(document.createTextNode("For Sale"));
+                h = row.appendChild(document.createElement("th"));
+                h.appendChild(document.createTextNode("Ticket Id"));
+                h = row.appendChild(document.createElement("th"));
+                h.appendChild(document.createTextNode("Event Id"));
+                h = row.appendChild(document.createElement("th"));
+                h.appendChild(document.createTextNode("Resale Ticket"));
+                for (var i = 0; i < parseInt(arraySize); i++) {
+                    Contract.ticketsArray(i, function (error, ticket) {
+                        if (ticket[3] === true) {
+                            var owner = ticket[0];
+                            var hash = ticket[1];
+                            var price = ticket[2];
+                            var forSale = ticket[3];
+                            var ticketID = ticket[4];
+                            var eventId = ticket[5];
+
+                            var body = tab.appendChild(document.createElement("tbody"));
+
+                            var ticketId = "ticketId" + ticket[5];
+                            var ticketButton = document.createElement("button");
+                            ticketButton.id = ticketId;
+                            ticketButton.innerHTML = "Buy";
+
+                            row = body.appendChild(document.createElement("tr"));
+                            var data = row.appendChild(document.createElement("td"));
+                            data.appendChild(document.createTextNode(owner));
+                            data = row.appendChild(document.createElement("td"));
+                            data.appendChild(document.createTextNode(hash));
+                            data = row.appendChild(document.createElement("td"));
+                            data.appendChild(document.createTextNode(price));
+                            data = row.appendChild(document.createElement("td"));
+                            data.appendChild(document.createTextNode(forSale));
+                            data = row.appendChild(document.createElement("td"));
+                            data.appendChild(document.createTextNode(ticketID));
+                            data = row.appendChild(document.createElement("td"));
+                            data.appendChild(document.createTextNode(eventId));
+                            data = row.appendChild(document.createElement("td"));
+                            data.appendChild(ticketButton);
+
+                            var weiPrice = (ticket[2] / getUSDETH) * Math.pow(10, 18);
+                            console.log(weiPrice);
+                            $("#" + ticketId).click(buyTicket.bind(null, ticket[4], weiPrice));
+                        }
+                    })
+                }
+            } else
+                console.error(error);
+        });
+
+        function buyTicket(ticketId, weiPrice) {
+            Contract.buyTicketForResale(ticketId, weiPrice, {value: weiPrice});
+        }
+
+    </script>
+    <div class="footer"></div> <!-- footer //-->
+</div>
+</body>
+</html>
